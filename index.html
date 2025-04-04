@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+    <style>
+        body{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color:cornsilk;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            height: 100vh;
+        }
+        .container{
+            background-color:azure;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .btn{
+            color: white;
+            background-color:azure;
+            display: flex;
+            justify-content: center;
+            border-radius: 10px;
+            gap: 10px;
+            padding: 10px 20px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            font-weight: bold;
+        }
+        .btn button:hover{
+            background-color:chartreuse;
+            display: flex;
+            padding: 10px 15px;
+            border: none;
+        }
+        .add{
+            background-color:bisque;
+            font-weight: bold;
+        }
+        .edit{
+            background-color:bisque;
+            font-weight: bold;
+        }
+        .del{
+            background-color:bisque;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .input {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        .total {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        <div class="input">
+            <label for="name">Purchase Name</label>
+            <input type="text" id="name" placeholder="Enter your purchase Name" required>
+        </div>
+        <div class="input">
+            <label for="amt">Amount</label>
+            <input type="number" id="amt" placeholder="Enter Amount in rupees" required>
+        </div>
+        <div class="input">
+            <label for="cat">Category</label>
+            <select id="cat">
+                <option value="" disabled selected>Choose Category</option>
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="other">Others</option>
+            </select>
+        </div>
+        <div class="input">
+            <label for="date">Date:</label>
+            <input type="date" id="date" required>
+        </div>
+        <div class="btn">
+           <button class="add">Add Expense</button> 
+        </div>
+        <ul id="Expense-list"></ul>
+        <div class="total">Total Amount: <span id="totalAmount">0</span></div>
+    </div>  
+    <script>
+        let totalAmount = 0; 
+        
+        document.querySelector(".add").addEventListener("click", function () {
+            let n = document.getElementById("name").value;
+            let a = document.getElementById("amt").value;
+            let c = document.getElementById("cat").value;
+            let d = document.getElementById("date").value;
+
+            if (!n || !a || !c || !d) {
+                alert("Please fill all details!");
+                return;
+            }
+
+            let ul = document.getElementById("Expense-list");
+            let li = document.createElement("li");
+            li.innerHTML = `${n} - ₹${a} - ${c} - ${d} 
+                            <button class="delete">x</button>`;
+            ul.appendChild(li);
+
+            totalAmount += parseFloat(a);
+            document.getElementById("totalAmount").textContent = totalAmount;
+
+            // Clear inputs
+            document.getElementById("name").value = "";
+            document.getElementById("amt").value = "";
+            document.getElementById("cat").value = "";
+            document.getElementById("date").value = "";
+
+            li.querySelector(".delete").addEventListener("click", function () {
+                totalAmount -= parseFloat(a);
+                document.getElementById("totalAmount").textContent = totalAmount;
+                li.remove();
+            });
+        });
+    </script>
+</body>
+</html>
